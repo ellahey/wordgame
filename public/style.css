@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+#letters-container {
+    position: absolute;
+    /*top: 0;*/
+    /*left: 0;*/
+    width: 75%;
+    height: 75%;
+    overflow: hidden;
+}
+body {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+#letters-container {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.letter {
+    position: absolute;
+    font-size: 24px;
+    animation: fall linear forwards; /* Ensure animation completes and retains final state */
+}
+
+.letter i:nth-child(even) {
+    transform: rotate(90deg);
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh); /* Move down by 100vh */
+    }
+}
+
+
+
