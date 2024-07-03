@@ -6,7 +6,7 @@ class RaindropApp {
         this.selectedLetterElement.id = 'selected';
         this.selectedLetterContainer.appendChild(this.selectedLetterElement);
         this.intervalId = null;
-        this.ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
+        this.ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     }
 
     getRandomLetter() {
