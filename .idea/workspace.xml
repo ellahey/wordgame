@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56879767-2beb-407f-b42e-1b782d50e668" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/public/randomizer.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/randomizer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
