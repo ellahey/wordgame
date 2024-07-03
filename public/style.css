@@ -16,8 +16,8 @@ body {
 /*TO DO: Adjust rotation of raindrops
 Adjust orientation of letters inside raindrops
 Adjust speed of fall
-Attach to canvas
-Adjust size of canvas*/
+ */
+
 .raindrop {
     position: absolute;
     top: 0;
