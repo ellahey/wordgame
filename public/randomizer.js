@@ -1,63 +1,132 @@
-//TODO: make OOP
+class RaindropApp {
+    constructor(containerId, selectionContainerId) {
+        this.container = document.getElementById(containerId);
+        this.selectedLetterContainer = document.getElementById(selectionContainerId);
+        this.selectedLetterElement = document.createElement('div');
+        this.selectedLetterElement.id = 'selected';
+        this.selectedLetterContainer.appendChild(this.selectedLetterElement);
+        this.intervalId = null;
+        this.ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
+    }
 
-const container = document.getElementById('letters-container');
-let intervalId;
-const selectedLetterElement = document.createElement('p');
+    getRandomLetter() {
+        const randomIndex = Math.floor(Math.random() * this.ALPHABET.length);
+        return this.ALPHABET[randomIndex];
+    }
 
-const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
+    renderLetter(letter) {
+        const raindrop = document.createElement('div');
+        raindrop.className = 'raindrop';
+        raindrop.innerText = letter;
+        raindrop.style.left = `${Math.random() * 100}vw`;
+        raindrop.style.animationDuration = `${Math.random() * 5 + 3}s`;
+        this.container.appendChild(raindrop);
 
-function getRandomLetter() {
-    const randomIndex = Math.floor(Math.random() * ALPHABET.length);
-    return ALPHABET[randomIndex];
-}
+        raindrop.addEventListener('click', () => this.renderSelectedLetter(letter));
 
-function renderLetter(letter) {
-    const raindrop = document.createElement('div');
-    raindrop.className = 'raindrop';
-    raindrop.innerText = letter;
-    raindrop.style.left = `${Math.random() * 100}vw`;
-    raindrop.style.animationDuration = `${Math.random() * 5 + 3}s`; // Random fall duration between 3 and 8 seconds
-    container.appendChild(raindrop);
-    raindrop.addEventListener('click', () => renderSelectedLetter(letter));
+        raindrop.addEventListener('animationend', () => {
+            raindrop.remove();
+        });
+    }
 
-    // Remove the letter after it falls out of view
-    raindrop.addEventListener('animationend', () => {
-        raindrop.remove();
-    });
-}
+    startRain() {
+        this.intervalId = setInterval(() => {
+            const letter = this.getRandomLetter();
+            this.renderLetter(letter);
+        }, 100);
+    }
 
-function startRain() {
-    intervalId = setInterval(() => {
-        const letter = getRandomLetter();
-        renderLetter(letter);
-    }, 100);
-}
+    stopRain() {
+        clearInterval(this.intervalId);
+    }
 
-function stopRain() {
-    clearInterval(intervalId);
-}
+    renderSelectedLetter(letter) {
+        const SPACE_SIZE = '2em';
+        const span = document.createElement('span');
+        span.innerText = letter;
+        span.style.marginRight = SPACE_SIZE;
+        this.selectedLetterElement.appendChild(span);
+        this.centerSelectionContainer();
+    }
 
-function renderSelectedLetter(letter) {
-    const selectedLetterContainer = document.getElementById('selection-container');
-    //const selectedLetterElement = document.createElement('p');
-    selectedLetterElement.append(letter);
-    selectedLetterElement.append(' ')
-    selectedLetterContainer.append(selectedLetterElement);
-    if (!selectedLetterElement.nodeValue || selectedLetterElement.nodeValue !== ' ') {
-        // Condition body
-        selectedLetterElement.style.textDecoration = 'underline';
+    centerSelectionContainer() {
+        const totalLettersWidth = this.selectedLetterElement.scrollWidth;
+        const containerWidth = this.selectedLetterContainer.clientWidth;
+        this.selectedLetterContainer.style.transform = `translateX(${(containerWidth - totalLettersWidth) / 2}px)`;
     }
 }
 
-function renderArray() {
+// Create an instance of the RaindropApp
+const raindropApp = new RaindropApp('letters-container', 'selection-container');
 
-}
-
-// Start the random letter generator
-startRain();
+raindropApp.startRain();
 
 // Stop the random letter generator after 5 seconds (for demonstration)
-setTimeout(stopRain, 5000);
+setTimeout(() => raindropApp.stopRain(), 5000);
 
 // Expose the stop function to the global scope for manual stopping
-window.stopRain = stopRain;
+window.stopRain = () => raindropApp.stopRain();
+
+
+// class RaindropApp {
+//     constructor(containerId, selectionContainerId) {
+//         this.container = document.getElementById(containerId);
+//         this.selectedLetterContainer = document.getElementById(selectionContainerId);
+//         this.selectedLetterElement = document.createElement('p');
+//         this.selectedLetterElement.id = 'selected';
+//         this.intervalId = null;
+//         this.ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
+//     }
+//
+//     getRandomLetter() {
+//         const randomIndex = Math.floor(Math.random() * this.ALPHABET.length);
+//         return this.ALPHABET[randomIndex];
+//     }
+//
+//     renderLetter(letter) {
+//         const raindrop = document.createElement('div');
+//         raindrop.className = 'raindrop';
+//         raindrop.innerText = letter;
+//         raindrop.style.left = `${Math.random() * 100}vw`;
+//         raindrop.style.animationDuration = `${Math.random() * 5 + 3}s`; // Random fall duration between 3 and 8 seconds
+//         this.container.appendChild(raindrop);
+//
+//         raindrop.addEventListener('click', () => this.renderSelectedLetter(letter));
+//
+//         // Remove the letter after it falls out of view
+//         raindrop.addEventListener('animationend', () => {
+//             raindrop.remove();
+//         });
+//     }
+//
+//     startRain() {
+//         this.intervalId = setInterval(() => {
+//             const letter = this.getRandomLetter();
+//             this.renderLetter(letter);
+//         }, 100);
+//     }
+//
+//     stopRain() {
+//         clearInterval(this.intervalId);
+//     }
+//
+//     renderSelectedLetter(letter) {
+//         const SPACE_SIZE = '2em'
+//         const span = document.createElement('span');
+//         span.innerText = letter;
+//         span.style.marginRight = SPACE_SIZE; // Adjust the space as needed
+//         this.selectedLetterElement.appendChild(span);
+//         this.selectedLetterContainer.appendChild(this.selectedLetterElement);
+//     }
+// }
+//
+// // Create an instance of the RaindropApp
+// const raindropApp = new RaindropApp('letters-container', 'selection-container');
+//
+// raindropApp.startRain();
+//
+// // Stop the random letter generator after 5 seconds (for demonstration)
+// setTimeout(() => raindropApp.stopRain(), 5000);
+//
+// // Expose the stop function to the global scope for manual stopping
+// window.stopRain = () => raindropApp.stopRain();
