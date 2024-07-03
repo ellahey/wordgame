@@ -3,10 +3,6 @@ body {
     overflow: hidden;
     position: relative;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 #letters-container {
@@ -15,6 +11,7 @@ body {
     height: 75vh;
     top: 25vh;
     overflow: hidden;
+    background-color: cornflowerblue;
 }
 
 .raindrop {
@@ -56,10 +53,10 @@ body {
 }
 
 #selection-container {
-    top: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
+   /* justify-content: center;
+    align-items: center;*/
     height: 50px;
     background-color: hotpink;
     white-space: nowrap;
