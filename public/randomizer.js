@@ -1,3 +1,5 @@
+//TODO: make OOP
+
 const container = document.getElementById('letters-container');
 let intervalId;
 let selectedLetters = [];

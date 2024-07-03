@@ -37,6 +37,20 @@ Adjust speed of fall
     animation: fall linear forwards;
 }
 
+/*Increase the clickable area of the raindrops to make selection easier*/
+.raindrop::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+}
+
+.raindrop:hover {
+    border: paleturquoise;
+}
+
 @keyframes fall {
     to {
         transform: translateY(100vh);
