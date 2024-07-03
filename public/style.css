@@ -6,40 +6,37 @@ body {
 
 #letters-container {
     position: absolute;
-    /*top: 0;*/
-    /*left: 0;*/
-    width: 75%;
-    height: 75%;
-    overflow: hidden;
-}
-body {
-    margin: 0;
-    overflow: hidden;
-    position: relative;
-}
-
-#letters-container {
-    position: absolute;
     width: 100%;
     height: 100vh;
     overflow: hidden;
 }
 
-.letter {
+/*TO DO: Adjust rotation of raindrops
+Adjust orientation of letters inside raindrops
+Adjust speed of fall
+Attach to canvas
+Adjust size of canvas*/
+.raindrop {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 0 50% 50% 50%;
+    border: 3px solid black;
+    transform: rotate(45deg);
+    margin-top: 20px;
+    background: rgb(237 246 247);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
     font-size: 24px;
-    animation: fall linear forwards; /* Ensure animation completes and retains final state */
-}
-
-.letter i:nth-child(even) {
-    transform: rotate(90deg);
+    animation: fall linear forwards;
 }
 
 @keyframes fall {
     to {
-        transform: translateY(100vh); /* Move down by 100vh */
+        transform: translateY(100vh);
     }
 }
-
-
-

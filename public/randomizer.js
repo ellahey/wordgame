@@ -9,36 +9,35 @@ function getRandomLetter() {
 }
 
 function renderLetter(letter) {
-    const letterElement = document.createElement('div');
-    letterElement.className = 'letter';
-    letterElement.innerText = letter;
-    letterElement.style.paddingLeft = `${Math.random() * 100}vw`;
-    letterElement.style.animationDuration = `${Math.random() * 5 + 3}s`; // Random fall duration between 3 and 8 seconds
-    container.appendChild(letterElement);
+    const raindrop = document.createElement('div');
+    raindrop.className = 'raindrop';
+    raindrop.innerText = letter;
+    raindrop.style.left = `${Math.random() * 100}vw`;
+    raindrop.style.animationDuration = `${Math.random() * 5 + 3}s`; // Random fall duration between 3 and 8 seconds
+    container.appendChild(raindrop);
 
     // Remove the letter after it falls out of view
-    letterElement.addEventListener('animationend', () => {
-        letterElement.remove();
+    raindrop.addEventListener('animationend', () => {
+        raindrop.remove();
     });
 }
 
-function startRandomLetters() {
+function startRain() {
     intervalId = setInterval(() => {
         const letter = getRandomLetter();
         renderLetter(letter);
     }, 100);
 }
 
-function stopRandomLetters() {
+function stopRain() {
     clearInterval(intervalId);
 }
 
 // Start the random letter generator
-startRandomLetters();
+startRain();
 
 // Stop the random letter generator after 5 seconds (for demonstration)
-setTimeout(stopRandomLetters, 5000);
+setTimeout(stopRain, 5000);
 
 // Expose the stop function to the global scope for manual stopping
-window.stopRandomLetters = stopRandomLetters;
-
+window.stopRain = stopRain;
