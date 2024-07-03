@@ -1,5 +1,5 @@
 //TODO: make OOP
-//TODO: limit underlining to letters only
+
 const container = document.getElementById('letters-container');
 let intervalId;
 const selectedLetterElement = document.createElement('p');
