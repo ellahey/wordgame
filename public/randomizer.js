@@ -1,8 +1,8 @@
 //TODO: make OOP
-
+//TODO: limit underlining to letters only
 const container = document.getElementById('letters-container');
 let intervalId;
-let selectedLetters = [];
+const selectedLetterElement = document.createElement('p');
 
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
 
@@ -39,10 +39,14 @@ function stopRain() {
 
 function renderSelectedLetter(letter) {
     const selectedLetterContainer = document.getElementById('selection-container');
-    const selectedLetterElement = document.createElement('p');
-    selectedLetterElement.innerText = letter;
+    //const selectedLetterElement = document.createElement('p');
+    selectedLetterElement.append(letter);
+    selectedLetterElement.append(' ')
     selectedLetterContainer.append(selectedLetterElement);
-
+    if (!selectedLetterElement.nodeValue || selectedLetterElement.nodeValue !== ' ') {
+        // Condition body
+        selectedLetterElement.style.textDecoration = 'underline';
+    }
 }
 
 function renderArray() {

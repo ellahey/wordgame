@@ -56,3 +56,8 @@ Adjust speed of fall
         transform: translateY(100vh);
     }
 }
+
+#selection-container {
+    margin: auto;
+    width: 50%;
+}
