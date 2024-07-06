@@ -1,7 +1,9 @@
 class RaindropApp {
-    constructor(containerId, selectionContainerId) {
-        this.container = document.getElementById(containerId);
-        this.selectedLetterContainer = document.getElementById(selectionContainerId);
+    constructor(levelTimeout) {
+        this.timeout = levelTimeout;
+        this.container = document.getElementById('letters-container');
+        this.selectedLetterContainer = document.getElementById('selection-container');
+        this.wordArea = document.getElementById('word-area')
         this.selectedLetterElement = document.createElement('div');
         this.selectedLetterElement.id = 'selected';
         this.selectedLetterContainer.appendChild(this.selectedLetterElement);
@@ -34,6 +36,9 @@ class RaindropApp {
             const letter = this.getRandomLetter();
             this.renderLetter(letter);
         }, 100);
+
+        // Stop the random letter generator after the specified timeout
+        setTimeout(() => this.stopRain(), this.timeout);
     }
 
     stopRain() {
@@ -54,15 +59,17 @@ class RaindropApp {
         const containerWidth = this.selectedLetterContainer.clientWidth;
         this.selectedLetterContainer.style.transform = `translateX(${(containerWidth - totalLettersWidth) / 2}px)`;
     }
+
+    initialize() {
+        this.startRain();
+
+        // Expose the stop function to the global scope for manual stopping
+        window.stopRain = () => this.stopRain();
+    }
 }
 
-// Create an instance of the RaindropApp
-const raindropApp = new RaindropApp('letters-container', 'selection-container');
+// Create an instance of the RaindropApp with a specified timeout
+const levelOne = new RaindropApp(5000);
 
-raindropApp.startRain();
-
-// Stop the random letter generator after 5 seconds (for demonstration)
-setTimeout(() => raindropApp.stopRain(), 5000);
-
-// Expose the stop function to the global scope for manual stopping
-window.stopRain = () => raindropApp.stopRain();
+// Initialize the app
+levelOne.initialize();
