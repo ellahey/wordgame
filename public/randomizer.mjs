@@ -1,4 +1,5 @@
 
+
 class RaindropApp {
     constructor(levelTimeout) {
         this.timeout = levelTimeout;
@@ -106,11 +107,11 @@ class RaindropApp {
 
     // Drag and Drop Event Handlers
     handleDragStart = (event) => {
-        const target = event.target;
-        event.dataTransfer.setData('text/html', target.innerText);
+        const target = event.target; // selected letter
+        event.dataTransfer.setData('text/plain', target.innerText);
         event.dataTransfer.setData('source-id', target.id);
         setTimeout(() => {
-            target.style.visibility = 'hidden';
+           target.style.visibility = 'hidden';
         }, 0);
     }
 
@@ -156,3 +157,28 @@ levelOne.initialize();
 /* Level Two  /****************************************************************************************/
 /* Level Three /***************************************************************************************/
 /* Lightening Round  /*********************************************************************************/
+
+
+/*Logger*/
+
+function sendLog(level, message) {
+    fetch('/api/log', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({level, message})
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log('Log sent successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error sending log:', error);
+        });
+}
