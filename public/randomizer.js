@@ -1,3 +1,4 @@
+
 class RaindropApp {
     constructor(levelTimeout) {
         this.timeout = levelTimeout;
@@ -12,9 +13,7 @@ class RaindropApp {
         this.letterArray = [];
         this.raindrops = []; // Array to keep track of raindrops
         this.isRainStopped = false; // Flag to track if rain has stopped
-        this.isDraggable = false; // Flag to track if letters are draggable
         this.onRainStop = null; // Callback function when rain stops
-        this.letterSpaces = []; // Array to store letter spaces
     }
 
     getRandomLetter() {
@@ -66,6 +65,9 @@ class RaindropApp {
         const span = document.createElement('span');
         span.innerText = letter;
         span.style.marginRight = SPACE_SIZE;
+        span.draggable = true // Make the span draggable
+        span.addEventListener('dragstart', this.handleDragStart); // Add dragstart event listener
+        span.id = `letter-${letter}-${Date.now()}`; // Unique ID
         this.selectedLetterElement.appendChild(span);
         this.centerSelectionContainer();
     }
@@ -75,21 +77,18 @@ class RaindropApp {
     }
 
     renderLetterSpaces() {
-        // Clear existing spaces if any
-        this.letterSpaces.forEach(space => space.remove());
-        this.letterSpaces = [];
-
-        // Create spaces for each selected letter
-        this.letterArray.forEach((letter, index) => {
+        const rearrangeArea = document.getElementById('rearrange-area');
+        rearrangeArea.innerHTML = ''; // Clear previous spaces
+        for (let i = 0; i < this.letterArray.length; i++) {
             const space = document.createElement('div');
             space.className = 'letter-space';
-            space.setAttribute('data-index', index); // Store index for reference
+            space.setAttribute('data-index', `${i}`); // Store index for reference
             space.innerText = '_'; // Placeholder visual representation
             space.addEventListener('dragover', this.handleDragOver);
             space.addEventListener('drop', this.handleDrop);
-            this.wordArea.appendChild(space);
-            this.letterSpaces.push(space);
-        });
+            rearrangeArea.appendChild(space);
+        }
+        this.wordArea.style.display = 'block'; // Show wordArea
     }
 
     centerSelectionContainer() {
@@ -108,9 +107,10 @@ class RaindropApp {
     // Drag and Drop Event Handlers
     handleDragStart = (event) => {
         const target = event.target;
-        event.dataTransfer.setData('text/plain', target.innerText);
+        event.dataTransfer.setData('text/html', target.innerText);
+        event.dataTransfer.setData('source-id', target.id);
         setTimeout(() => {
-            target.style.display = 'none';
+            target.style.visibility = 'hidden';
         }, 0);
     }
 
@@ -121,9 +121,21 @@ class RaindropApp {
     handleDrop = (event) => {
         event.preventDefault();
         const data = event.dataTransfer.getData('text/plain');
-        const target = event.target;
-        target.innerText = data;
-        target.style.display = 'block';
+        const sourceId = event.dataTransfer.getData('source-id');
+        const draggedElement = document.getElementById(sourceId);
+
+        if (event.target.classList.contains('letter-space')) {
+            event.target.innerText = data;
+            // Remove the letter from the selected letter area
+            if (draggedElement) {
+                draggedElement.remove();
+            }
+        } else {
+            // Reset the visibility of the dragged element if dropped outside valid area
+            if (draggedElement) {
+                draggedElement.style.visibility = 'visible';
+            }
+        }
     }
 }
 
@@ -132,7 +144,6 @@ class RaindropApp {
 const levelOne = new RaindropApp(5000);
 levelOne.setOnRainStop(() => {
     console.log('Rain has stopped. Rendering additional elements.');
-    levelOne.isDraggable = true;
     levelOne.renderLetterSpaces();
     // Display message or instructions for user
     const message = document.createElement('div');

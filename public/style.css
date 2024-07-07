@@ -60,6 +60,34 @@ body {
     white-space: nowrap;
 }
 
+#rearrange-area {
+    padding-top: 5%;
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    white-space: nowrap;
+}
+
+.letter-space {
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    border: 1px solid #000;
+    margin: 0.5em;
+    line-height: 2em;
+    text-align: center;
+}
+.instruction-message {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 1.2em;
+    color: #333;
+}
+#word-area {
+    display: none; /* Hide initially */
+    margin-top: 20px;
+}
+
 #selected {
     font-size: 42px;
 }
