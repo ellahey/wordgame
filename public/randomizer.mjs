@@ -1,7 +1,5 @@
-
-
 class RaindropApp {
-    constructor(levelTimeout) {
+    constructor(levelTimeout, levelWordLength) {
         this.timeout = levelTimeout;
         this.container = document.getElementById('letters-container');
         this.selectedLetterContainer = document.getElementById('selection-container');
@@ -15,6 +13,7 @@ class RaindropApp {
         this.raindrops = []; // Array to keep track of raindrops
         this.isRainStopped = false; // Flag to track if rain has stopped
         this.onRainStop = null; // Callback function when rain stops
+        this.wordLength = levelWordLength;
     }
 
     getRandomLetter() {
@@ -80,7 +79,7 @@ class RaindropApp {
     renderLetterSpaces() {
         const rearrangeArea = document.getElementById('rearrange-area');
         rearrangeArea.innerHTML = ''; // Clear previous spaces
-        for (let i = 0; i < this.letterArray.length; i++) {
+        for (let i = 0; i < this.wordLength; i++) {
             const space = document.createElement('div');
             space.className = 'letter-space';
             space.setAttribute('data-index', `${i}`); // Store index for reference
@@ -88,6 +87,7 @@ class RaindropApp {
             space.addEventListener('dragover', this.handleDragOver);
             space.addEventListener('drop', this.handleDrop);
             rearrangeArea.appendChild(space);
+            this.centerRearrangeArea(rearrangeArea, space, this.letterArray.length)
         }
         this.wordArea.style.display = 'block'; // Show wordArea
     }
@@ -96,6 +96,12 @@ class RaindropApp {
         const totalLettersWidth = this.selectedLetterElement.scrollWidth;
         const containerWidth = this.selectedLetterContainer.clientWidth;
         this.selectedLetterContainer.style.transform = `translateX(${(containerWidth - totalLettersWidth) / 2}px)`;
+    }
+
+    centerRearrangeArea(rearrangeArea, space, numberOfLetters) {
+        const spacesWidth = space.scrollWidth;
+        const rearrangeAreaWidth = rearrangeArea.clientWidth;
+        rearrangeArea.style.transform = `translateX(${(rearrangeAreaWidth - spacesWidth) / 2}px)`
     }
 
     initialize() {
@@ -110,9 +116,9 @@ class RaindropApp {
         const target = event.target; // selected letter
         event.dataTransfer.setData('text/plain', target.innerText);
         event.dataTransfer.setData('source-id', target.id);
-        setTimeout(() => {
-           target.style.visibility = 'hidden';
-        }, 0);
+        // setTimeout(() => {
+        //    target.style.visibility = 'hidden';
+        // }, 0);
     }
 
     handleDragOver = (event) => {
@@ -125,24 +131,26 @@ class RaindropApp {
         const sourceId = event.dataTransfer.getData('source-id');
         const draggedElement = document.getElementById(sourceId);
 
-        if (event.target.classList.contains('letter-space')) {
+        if (event.currentTarget.className === 'letter-space') {
+        //if (event.target.classList.contains('letter-space')) {
             event.target.innerText = data;
             // Remove the letter from the selected letter area
            /* if (draggedElement) {*/
-                draggedElement.remove();
+                //draggedElement.remove();
+           draggedElement.style.visibility = 'hidden';
             //}
-        } /*else {
-            // Reset the visibility of the dragged element if dropped outside valid area
-            /!*if (draggedElement) {*!/
-                draggedElement.style.visibility = 'visible';
-            }*/
-        //}
+        } else {
+            const selectedLetterContainer = document.getElementById('selection-container');
+            if (selectedLetterContainer.firstElementChild.firstElementChild.id === sourceId) {
+                selectedLetterContainer.firstElementChild.firstElementChild.style.visibility = 'visible';
+            }
+            }
     }
 }
 
 /* Level One ****************************************************************************************/
 
-const levelOne = new RaindropApp(5000);
+const levelOne = new RaindropApp(5000, 3);
 levelOne.setOnRainStop(() => {
     console.log('Rain has stopped. Rendering additional elements.');
     levelOne.renderLetterSpaces();

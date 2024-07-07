@@ -60,13 +60,10 @@ body {
     white-space: nowrap;
 }
 
-/*#rearrange-area {
-    padding-top: 5%;
+#rearrange-area {
     display: flex;
     flex-direction: row;
-    height: 50px;
-    white-space: nowrap;
-}*/
+}
 
 .letter-space {
     display: inline-block;
