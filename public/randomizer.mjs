@@ -128,15 +128,15 @@ class RaindropApp {
         if (event.target.classList.contains('letter-space')) {
             event.target.innerText = data;
             // Remove the letter from the selected letter area
-            if (draggedElement) {
+           /* if (draggedElement) {*/
                 draggedElement.remove();
-            }
-        } else {
+            //}
+        } /*else {
             // Reset the visibility of the dragged element if dropped outside valid area
-            if (draggedElement) {
+            /!*if (draggedElement) {*!/
                 draggedElement.style.visibility = 'visible';
-            }
-        }
+            }*/
+        //}
     }
 }
 
