@@ -13,6 +13,10 @@ app.use((req, res, next) => {
 });
 
 
+app.post('/api/dictionary', (req, res) => {
+const word = req.body;
+//call method here for checking dictionary
+});
 
 app.post('/api/log', (req, res) => {
     const { level, message } = req.body;

@@ -14,6 +14,8 @@ class RaindropApp {
         this.isRainStopped = false; // Flag to track if rain has stopped
         this.onRainStop = null; // Callback function when rain stops
         this.wordLength = levelWordLength;
+        this.rearrangeArea = null;
+        this.button = document.getElementById('submit')
     }
 
     getRandomLetter() {
@@ -77,8 +79,8 @@ class RaindropApp {
     }
 
     renderLetterSpaces() {
-        const rearrangeArea = document.getElementById('rearrange-area');
-        rearrangeArea.innerHTML = ''; // Clear previous spaces
+        this.rearrangeArea = document.getElementById('rearrange-area');
+        this.rearrangeArea.innerHTML = ''; // Clear previous spaces
         for (let i = 0; i < this.wordLength; i++) {
             const space = document.createElement('div');
             space.className = 'letter-space';
@@ -86,8 +88,8 @@ class RaindropApp {
             space.innerText = '_'; // Placeholder visual representation
             space.addEventListener('dragover', this.handleDragOver);
             space.addEventListener('drop', this.handleDrop);
-            rearrangeArea.appendChild(space);
-            this.centerRearrangeArea(rearrangeArea, space, this.letterArray.length)
+            this.rearrangeArea.appendChild(space);
+            this.centerRearrangeArea(this.rearrangeArea, space, this.letterArray.length)
         }
         this.wordArea.style.display = 'block'; // Show wordArea
     }
@@ -98,7 +100,7 @@ class RaindropApp {
         this.selectedLetterContainer.style.transform = `translateX(${(containerWidth - totalLettersWidth) / 2}px)`;
     }
 
-    centerRearrangeArea(rearrangeArea, space, numberOfLetters) {
+    centerRearrangeArea(rearrangeArea, space) {
         const spacesWidth = space.scrollWidth;
         const rearrangeAreaWidth = rearrangeArea.clientWidth;
         rearrangeArea.style.transform = `translateX(${(rearrangeAreaWidth - spacesWidth) / 2}px)`
@@ -132,25 +134,54 @@ class RaindropApp {
         const draggedElement = document.getElementById(sourceId);
 
         if (event.currentTarget.className === 'letter-space') {
-        //if (event.target.classList.contains('letter-space')) {
             event.target.innerText = data;
-            // Remove the letter from the selected letter area
-           /* if (draggedElement) {*/
-                //draggedElement.remove();
-           draggedElement.style.visibility = 'hidden';
+            ;
+            draggedElement.style.visibility = 'hidden';
             //}
         } else {
             const selectedLetterContainer = document.getElementById('selection-container');
             if (selectedLetterContainer.firstElementChild.firstElementChild.id === sourceId) {
                 selectedLetterContainer.firstElementChild.firstElementChild.style.visibility = 'visible';
             }
+        }
+    }
+
+
+    extractWord() {
+        this.button.addEventListener('click', () => {
+            let userWord = '';
+            for (let i = 0; i < this.rearrangeArea; i++) {
+                const child = this.rearrangeArea.child;
+                userWord.append(child.innerText)
             }
+            if (!userWord.equals(''))
+                this.postWord(userWord);
+        })
+
+    }
+
+    postWord(word) {
+        fetch('/api/dictionary', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: `${word}`
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Open AI network response was not ok');
+            }
+            return response.json();
+        })
     }
 }
+
 
 /* Level One ****************************************************************************************/
 
 const levelOne = new RaindropApp(5000, 3);
+
+//TODO - move function below to inside class
 levelOne.setOnRainStop(() => {
     console.log('Rain has stopped. Rendering additional elements.');
     levelOne.renderLetterSpaces();
@@ -159,6 +190,7 @@ levelOne.setOnRainStop(() => {
     message.innerText = 'Drag letters to spaces to form words';
     message.className = 'instruction-message';
     levelOne.wordArea.appendChild(message);
+    levelOne.extractWord();
 });
 levelOne.initialize();
 
