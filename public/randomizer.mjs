@@ -169,12 +169,13 @@ class RaindropApp {
 
     postWord(word) {
         console.log('postWord function called');
+        const lowercaseWord = word.toLowerCase(); // Convert to lowercase
         fetch('/api/dictionary', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ word })  // Ensure the word is correctly structured
+            body: JSON.stringify({ word: lowercaseWord }) // Send lowercase word
         }).then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
