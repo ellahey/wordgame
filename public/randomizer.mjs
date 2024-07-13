@@ -153,6 +153,7 @@ class RaindropApp {
 
     renderButton() {
         this.buttonArea = document.createElement('div');
+        this.buttonArea.className = 'button-area'; // Add this line
         this.button = document.createElement('button');
         this.button.type = 'submit';
         this.button.id = 'submit';

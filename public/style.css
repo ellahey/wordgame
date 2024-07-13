@@ -73,10 +73,6 @@ body {
     display: flex;
 }
 
-button {
-   margin-left: 50%; /*Need to align the centre of the button with the centre of the vh*/
-}
-
 .letter-space {
     /*display: inline-block;*/
     width: 2em;
@@ -92,11 +88,27 @@ button {
     font-size: 1.2em;
     color: #333;
 }
+
 #word-area {
     display: none; /* Hide initially */
     margin-top: 20px;
     background-color: hotpink;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
+.button-area {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    width: fit-content; /* Ensures the button width fits its contents */
+    padding: 10px 20px; /* Optional: Adjust padding as needed for better appearance */
+}
+
 
 #selected {
     background-color: cornflowerblue;
