@@ -1,10 +1,15 @@
-
 import * as fs from "fs";
 import * as readline from 'readline';
 
 async function checkWord(FILE_PATH, word) {
+    console.log(`checkWord is called with word: ${word}`);
     return new Promise((resolve, reject) => {
         const fileStream = fs.createReadStream(FILE_PATH);
+
+        fileStream.on('error', (err) => {
+            console.error(`File read error: ${err.message}`);
+            reject(err);
+        });
 
         const rl = readline.createInterface({
             input: fileStream,
@@ -25,6 +30,7 @@ async function checkWord(FILE_PATH, word) {
         });
 
         rl.on('error', (err) => {
+            console.error(`Readline error: ${err.message}`);
             reject(err);
         });
     });

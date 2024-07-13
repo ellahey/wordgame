@@ -1,15 +1,16 @@
 //server.mjs
 import express from 'express';
-import {logger} from './logger.mjs';
-import {checkWord} from "./dictionaryService.mjs";
+import { logger } from './logger.mjs';
+import { checkWord } from "./dictionaryService.mjs";
 
-const FILE_PATH = './database/combine_words.txt';
+const FILE_PATH = './database/combined_words.txt';
 const app = express();
 const port = 3000;
 
 
 app.use(express.json());
 app.use(express.static('public'));
+
 app.use((req, res, next) => {
     logger.info(`Incoming request: ${req.method} ${req.url}`);
     next();
@@ -17,7 +18,7 @@ app.use((req, res, next) => {
 
 
 app.post('/api/dictionary', (req, res) => {
-    const word = req.body;
+    const word = req.body.word;
     checkWord(FILE_PATH, word)
         .then(found => {
             if (found) {

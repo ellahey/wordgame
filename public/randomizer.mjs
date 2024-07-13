@@ -168,13 +168,13 @@ class RaindropApp {
     }
 
     postWord(word) {
-       console.log('postWord function called');
+        console.log('postWord function called');
         fetch('/api/dictionary', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ word })
+            body: JSON.stringify({ word })  // Ensure the word is correctly structured
         }).then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -186,6 +186,7 @@ class RaindropApp {
             console.error('Error:', error);
         });
     }
+
 }
 
 
