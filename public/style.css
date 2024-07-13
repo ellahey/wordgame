@@ -98,6 +98,7 @@ body {
     justify-content: center;
 }
 
+
 .button-area {
     margin-top: 20px;
     display: flex;
@@ -113,11 +114,20 @@ button {
     border-radius: 5px;
 }
 
-
-#selected {
-    background-color: cornflowerblue;
+#selection-container {
+    padding-top: 5%;
+    /*align-content: center;*/
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    /*align-items: center;*/
 }
 
 #selected {
+    display: flex;
+    justify-content: center;
+letter-spacing: 2rem;
+    background-color: cornflowerblue;
     font-size: 42px;
 }

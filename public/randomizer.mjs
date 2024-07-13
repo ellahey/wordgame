@@ -65,15 +65,12 @@ class RaindropApp {
 
     renderSelectedLetter(letter) {
         this.letterArray.push(letter);
-        const SPACE_SIZE = '2em';
         const span = document.createElement('span');
         span.innerText = letter;
-        span.style.marginRight = SPACE_SIZE;
         span.draggable = true // Make the span draggable
         span.addEventListener('dragstart', this.handleDragStart); // Add dragstart event listener
         span.id = `letter-${letter}-${Date.now()}`; // Unique ID
         this.selectedLetterElement.appendChild(span);
-        this.centerSelectionContainer();
     }
 
     setOnRainStop(callback) {
@@ -103,11 +100,11 @@ class RaindropApp {
     }
 //TODO create single centering function to use for all elements - or consider handling in css.
 
-    centerSelectionContainer() {
-        const totalLettersWidth = this.selectedLetterElement.scrollWidth;
-        const containerWidth = this.selectedLetterContainer.clientWidth;
-        this.selectedLetterContainer.style.transform = `translateX(${(containerWidth - totalLettersWidth) / 2}px)`;
-    }
+    // centerSelectionContainer() {
+    //     const totalLettersWidth = this.selectedLetterElement.scrollWidth;
+    //     const containerWidth = this.selectedLetterContainer.clientWidth;
+    //     this.selectedLetterContainer.style.transform = `translateX(${(containerWidth - totalLettersWidth) / 2}px)`;
+    // }
 
     centerRearrangeArea(rearrangeArea, totalWidth) {
         const rearrangeAreaWidth = rearrangeArea.clientWidth;
