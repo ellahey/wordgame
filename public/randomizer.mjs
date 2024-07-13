@@ -94,9 +94,6 @@ class RaindropApp {
         }
 
         this.wordArea.style.display = 'block'; // Show wordArea
-
-        // After appending all spaces, center the rearrange area
-        this.centerRearrangeArea(this.rearrangeArea, totalWidth);
     }
 //TODO create single centering function to use for all elements - or consider handling in css.
 
@@ -106,10 +103,10 @@ class RaindropApp {
     //     this.selectedLetterContainer.style.transform = `translateX(${(containerWidth - totalLettersWidth) / 2}px)`;
     // }
 
-    centerRearrangeArea(rearrangeArea, totalWidth) {
-        const rearrangeAreaWidth = rearrangeArea.clientWidth;
-        rearrangeArea.style.transform = `translateX(${(rearrangeAreaWidth - totalWidth) / 2}px)`;
-    }
+    // centerRearrangeArea(rearrangeArea, totalWidth) {
+    //     const rearrangeAreaWidth = rearrangeArea.clientWidth;
+    //     rearrangeArea.style.transform = `translateX(${(rearrangeAreaWidth - totalWidth) / 2}px)`;
+    // }
 
 
     initialize() {
@@ -150,11 +147,11 @@ class RaindropApp {
 
     renderButton() {
         this.buttonArea = document.createElement('div');
-        this.buttonArea.className = 'button-area'; // Add this line
+        this.buttonArea.className = 'button-area';
         this.button = document.createElement('button');
         this.button.type = 'submit';
         this.button.id = 'submit';
-        this.button.innerText = 'Submit word';
+        this.button.innerText = 'Submit';
         this.buttonArea.appendChild(this.button);
         this.button.addEventListener('click', () => this.extractWord());
         this.wordArea.appendChild(this.buttonArea);
@@ -219,7 +216,7 @@ levelOne.setOnRainStop(() => {
     levelOne.renderButton();
     // Display message or instructions for user
     //TODO - create a separate class for handling the area / messages below
-    levelOne.message.innerText = 'Drag letters to spaces to form words';
+    levelOne.message.innerText = 'Drag letters to spaces to form a word, then click "Submit"';
     levelOne.message.className = 'instruction-message';
     levelOne.wordArea.appendChild(levelOne.message);
 });
