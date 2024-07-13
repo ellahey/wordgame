@@ -1,6 +1,9 @@
-//server.js
+//server.mjs
 import express from 'express';
 import {logger} from './logger.mjs';
+import {checkWord} from "./dictionaryService.mjs";
+
+const FILE_PATH = './database/combine_words.txt';
 const app = express();
 const port = 3000;
 
@@ -14,8 +17,18 @@ app.use((req, res, next) => {
 
 
 app.post('/api/dictionary', (req, res) => {
-const word = req.body;
-//call method here for checking dictionary
+    const word = req.body;
+    checkWord(FILE_PATH, word)
+        .then(found => {
+            if (found) {
+                res.json({ message: `The word "${word}" was found in the dictionary.` });
+            } else {
+                res.json({ message: `The word "${word}" was not found in the dictionary.` });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: `Error reading file: ${err.message}` });
+        });
 });
 
 app.post('/api/log', (req, res) => {

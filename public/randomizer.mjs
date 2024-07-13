@@ -15,9 +15,9 @@ class RaindropApp {
         this.onRainStop = null; // Callback function when rain stops
         this.wordLength = levelWordLength;
         this.rearrangeArea = null;
-        this.button = document.getElementById('submit')
+        this.buttonArea = null;
+        this.button = null;
     }
-
     getRandomLetter() {
         const randomIndex = Math.floor(Math.random() * this.ALPHABET.length);
         return this.ALPHABET[randomIndex];
@@ -118,9 +118,6 @@ class RaindropApp {
         const target = event.target; // selected letter
         event.dataTransfer.setData('text/plain', target.innerText);
         event.dataTransfer.setData('source-id', target.id);
-        // setTimeout(() => {
-        //    target.style.visibility = 'hidden';
-        // }, 0);
     }
 
     handleDragOver = (event) => {
@@ -135,7 +132,6 @@ class RaindropApp {
 
         if (event.currentTarget.className === 'letter-space') {
             event.target.innerText = data;
-            ;
             draggedElement.style.visibility = 'hidden';
             //}
         } else {
@@ -146,35 +142,52 @@ class RaindropApp {
         }
     }
 
+    renderButton() {
+        this.buttonArea = document.createElement('div');
+        this.button = document.createElement('button');
+        this.button.type = 'submit';
+        this.button.id = 'submit';
+        this.button.innerText = 'Submit word';
+        this.buttonArea.appendChild(this.button);
+        this.button.addEventListener('click', () => this.extractWord());
+        this.wordArea.appendChild(this.buttonArea);
+    }
+
 
     extractWord() {
-        this.button.addEventListener('click', () => {
-            let userWord = '';
-            for (let i = 0; i < this.rearrangeArea; i++) {
-                const child = this.rearrangeArea.child;
-                userWord.append(child.innerText)
-            }
-            if (!userWord.equals(''))
-                this.postWord(userWord);
-        })
-
+        console.log('extractWord() is called')
+        let userWord = '';
+        const children = this.rearrangeArea.children;
+        for (let i = 0; i < children.length; i++) {
+            const child = children[i];
+            userWord += child.innerText;
+        }
+        if (userWord !== '') {
+            this.postWord(userWord);
+        }
     }
 
     postWord(word) {
+       console.log('postWord function called');
         fetch('/api/dictionary', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: `${word}`
+            body: JSON.stringify({ word })
         }).then(response => {
             if (!response.ok) {
-                throw new Error('Open AI network response was not ok');
+                throw new Error('Network response was not ok');
             }
             return response.json();
-        })
+        }).then(data => {
+            console.log(data);
+        }).catch(error => {
+            console.error('Error:', error);
+        });
     }
 }
+
 
 
 /* Level One ****************************************************************************************/
@@ -185,12 +198,12 @@ const levelOne = new RaindropApp(5000, 3);
 levelOne.setOnRainStop(() => {
     console.log('Rain has stopped. Rendering additional elements.');
     levelOne.renderLetterSpaces();
+    levelOne.renderButton();
     // Display message or instructions for user
     const message = document.createElement('div');
     message.innerText = 'Drag letters to spaces to form words';
     message.className = 'instruction-message';
     levelOne.wordArea.appendChild(message);
-    levelOne.extractWord();
 });
 levelOne.initialize();
 
@@ -199,26 +212,3 @@ levelOne.initialize();
 /* Lightening Round  /*********************************************************************************/
 
 
-/*Logger*/
-
-function sendLog(level, message) {
-    fetch('/api/log', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({level, message})
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            console.log('Log sent successfully:', data);
-        })
-        .catch(error => {
-            console.error('Error sending log:', error);
-        });
-}
