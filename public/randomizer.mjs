@@ -17,6 +17,8 @@ class RaindropApp {
         this.rearrangeArea = null;
         this.buttonArea = null;
         this.button = null;
+        this.message = document.createElement('div');
+        this.message.id = 'message';
     }
     getRandomLetter() {
         const randomIndex = Math.floor(Math.random() * this.ALPHABET.length);
@@ -182,10 +184,19 @@ class RaindropApp {
             }
             return response.json();
         }).then(data => {
+            this.renderResult(data.code)
             console.log(data);
         }).catch(error => {
             console.error('Error:', error);
         });
+    }
+
+    renderResult(code) {
+        if (code === 0) {
+            this.message.innerText = 'You made a word!'
+        } else if (code === 1) {
+            this.message.innerText = 'Word not found in dictionary.'
+        }
     }
 
 }
@@ -202,10 +213,10 @@ levelOne.setOnRainStop(() => {
     levelOne.renderLetterSpaces();
     levelOne.renderButton();
     // Display message or instructions for user
-    const message = document.createElement('div');
-    message.innerText = 'Drag letters to spaces to form words';
-    message.className = 'instruction-message';
-    levelOne.wordArea.appendChild(message);
+    //TODO - create a separate class for handling the area / messages below
+    levelOne.message.innerText = 'Drag letters to spaces to form words';
+    levelOne.message.className = 'instruction-message';
+    levelOne.wordArea.appendChild(levelOne.message);
 });
 levelOne.initialize();
 

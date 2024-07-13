@@ -22,9 +22,9 @@ app.post('/api/dictionary', (req, res) => {
     checkWord(FILE_PATH, word)
         .then(found => {
             if (found) {
-                res.json({ message: `The word "${word}" was found in the dictionary.` });
+                res.json({ code: 0, message: `The word "${word}" was found in the dictionary.` });
             } else {
-                res.json({ message: `The word "${word}" was not found in the dictionary.` });
+                res.json({ code: 1, message: `The word "${word}" was not found in the dictionary.` });
             }
         })
         .catch(err => {
