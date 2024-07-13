@@ -83,6 +83,8 @@ class RaindropApp {
     renderLetterSpaces() {
         this.rearrangeArea = document.getElementById('rearrange-area');
         this.rearrangeArea.innerHTML = ''; // Clear previous spaces
+        let totalWidth = 0;
+
         for (let i = 0; i < this.wordLength; i++) {
             const space = document.createElement('div');
             space.className = 'letter-space';
@@ -91,10 +93,15 @@ class RaindropApp {
             space.addEventListener('dragover', this.handleDragOver);
             space.addEventListener('drop', this.handleDrop);
             this.rearrangeArea.appendChild(space);
-            this.centerRearrangeArea(this.rearrangeArea, space, this.letterArray.length)
+            totalWidth += space.offsetWidth; // Add the width of each space
         }
+
         this.wordArea.style.display = 'block'; // Show wordArea
+
+        // After appending all spaces, center the rearrange area
+        this.centerRearrangeArea(this.rearrangeArea, totalWidth);
     }
+//TODO create single centering function to use for all elements - or consider handling in css.
 
     centerSelectionContainer() {
         const totalLettersWidth = this.selectedLetterElement.scrollWidth;
@@ -102,11 +109,11 @@ class RaindropApp {
         this.selectedLetterContainer.style.transform = `translateX(${(containerWidth - totalLettersWidth) / 2}px)`;
     }
 
-    centerRearrangeArea(rearrangeArea, space) {
-        const spacesWidth = space.scrollWidth;
+    centerRearrangeArea(rearrangeArea, totalWidth) {
         const rearrangeAreaWidth = rearrangeArea.clientWidth;
-        rearrangeArea.style.transform = `translateX(${(rearrangeAreaWidth - spacesWidth) / 2}px)`
+        rearrangeArea.style.transform = `translateX(${(rearrangeAreaWidth - totalWidth) / 2}px)`;
     }
+
 
     initialize() {
         this.startRain();
