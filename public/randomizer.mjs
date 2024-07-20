@@ -15,8 +15,8 @@ class RaindropApp {
         this.onRainStop = null; // Callback function when rain stops
         this.wordLength = levelWordLength;
         this.rearrangeArea = null;
-        this.buttonArea = null;
-        this.button = null;
+        // this.buttonArea = null;
+        // this.button = null;
         this.message = document.createElement('div');
         this.message.id = 'message';
     }
@@ -95,18 +95,6 @@ class RaindropApp {
 
         this.wordArea.style.display = 'block'; // Show wordArea
     }
-//TODO create single centering function to use for all elements - or consider handling in css.
-
-    // centerSelectionContainer() {
-    //     const totalLettersWidth = this.selectedLetterElement.scrollWidth;
-    //     const containerWidth = this.selectedLetterContainer.clientWidth;
-    //     this.selectedLetterContainer.style.transform = `translateX(${(containerWidth - totalLettersWidth) / 2}px)`;
-    // }
-
-    // centerRearrangeArea(rearrangeArea, totalWidth) {
-    //     const rearrangeAreaWidth = rearrangeArea.clientWidth;
-    //     rearrangeArea.style.transform = `translateX(${(rearrangeAreaWidth - totalWidth) / 2}px)`;
-    // }
 
 
     initialize() {
@@ -136,7 +124,6 @@ class RaindropApp {
         if (event.currentTarget.className === 'letter-space') {
             event.target.innerText = data;
             draggedElement.style.visibility = 'hidden';
-            //}
         } else {
             const selectedLetterContainer = document.getElementById('selection-container');
             if (selectedLetterContainer.firstElementChild.firstElementChild.id === sourceId) {
@@ -146,15 +133,16 @@ class RaindropApp {
     }
 
     renderButton() {
-        this.buttonArea = document.createElement('div');
-        this.buttonArea.className = 'button-area';
-        this.button = document.createElement('button');
-        this.button.type = 'submit';
-        this.button.id = 'submit';
-        this.button.innerText = 'Submit';
-        this.buttonArea.appendChild(this.button);
-        this.button.addEventListener('click', () => this.extractWord());
-        this.wordArea.appendChild(this.buttonArea);
+        console.log('renderButton called')
+        const buttonArea = document.createElement('div')
+        buttonArea.className = 'button-area';
+        const button = document.createElement('button');
+        button.type = 'submit';
+        button.id = 'submit';
+        button.innerText = 'Submit';
+        buttonArea.appendChild(button);
+        this.wordArea.appendChild(buttonArea);
+        button.addEventListener('click', () => this.extractWord());
     }
 
 
@@ -206,21 +194,21 @@ class RaindropApp {
 
 
 /* Level One ****************************************************************************************/
-
-const levelOne = new RaindropApp(5000, 3);
+    const levelOne = new RaindropApp(5000, 3);
 
 //TODO - move function below to inside class
-levelOne.setOnRainStop(() => {
-    console.log('Rain has stopped. Rendering additional elements.');
-    levelOne.renderLetterSpaces();
-    levelOne.renderButton();
-    // Display message or instructions for user
-    //TODO - create a separate class for handling the area / messages below
-    levelOne.message.innerText = 'Drag letters to spaces to form a word, then click "Submit"';
-    levelOne.message.className = 'instruction-message';
-    levelOne.wordArea.appendChild(levelOne.message);
-});
-levelOne.initialize();
+    levelOne.setOnRainStop(() => {
+        console.log('Rain has stopped. Rendering additional elements.');
+        levelOne.renderLetterSpaces();
+        levelOne.renderButton();
+        // Display message or instructions for user
+        //TODO - create a separate class for handling the area / messages below
+        levelOne.message.innerText = 'Drag letters to spaces to form a word, then click "Submit"';
+        levelOne.message.className = 'instruction-message';
+        levelOne.wordArea.appendChild(levelOne.message);
+    });
+    levelOne.initialize();
+
 
 /* Level Two  /****************************************************************************************/
 /* Level Three /***************************************************************************************/
