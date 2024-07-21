@@ -15,10 +15,12 @@ class RaindropApp {
         this.onRainStop = null; // Callback function when rain stops
         this.wordLength = levelWordLength;
         this.rearrangeArea = null;
-        // this.buttonArea = null;
-        // this.button = null;
+        this.buttonArea = null;
         this.message = document.createElement('div');
         this.message.id = 'message';
+        this.instructions = document.getElementById('instructions');
+        this.instructionText = '';
+        this.MAX_LETTERS = 6;
     }
     getRandomLetter() {
         const randomIndex = Math.floor(Math.random() * this.ALPHABET.length);
@@ -33,8 +35,11 @@ class RaindropApp {
         raindrop.style.animationDuration = `${Math.random() * 5 + 3}s`;
         this.container.appendChild(raindrop);
         this.raindrops.push(raindrop);
-
-        raindrop.addEventListener('click', () => this.renderSelectedLetter(letter));
+if (this.raindrops.length >= this.MAX_LETTERS) {
+    raindrop.addEventListener('click', () => this.renderSelectedLetter(letter));
+} else {
+    this.message.innerText = 'You have already selected 7 letters.'
+}
 
         raindrop.addEventListener('animationend', () => {
             raindrop.remove();
@@ -96,13 +101,23 @@ class RaindropApp {
         this.wordArea.style.display = 'block'; // Show wordArea
     }
 
-
-    initialize() {
-        this.startRain();
-
-        // Expose the stop function to the global scope for manual stopping
-        window.stopRain = () => this.stopRain();
+    setInstructionText(text) {
+        this.instructionText = text;
+        this.instructions.innerText = text;
     }
+
+    clearInstructionText() {
+        this.instructions.innerText = '';
+    }
+
+    initialize(text) {
+        this.setInstructionText(text);
+        setTimeout(() => {
+            this.clearInstructionText();
+            this.startRain();
+        }, 5000);
+    }
+
 
     // Drag and Drop Event Handlers
     handleDragStart = (event) => {
@@ -140,7 +155,7 @@ class RaindropApp {
         button.type = 'submit';
         button.id = 'submit';
         button.innerText = 'Submit';
-        buttonArea.appendChild(button);
+        this.buttonArea.appendChild(button);
         this.wordArea.appendChild(buttonArea);
         button.addEventListener('click', () => this.extractWord());
     }
@@ -195,6 +210,9 @@ class RaindropApp {
 
 /* Level One ****************************************************************************************/
     const levelOne = new RaindropApp(5000, 3);
+    const levelOneText = 'Welcome to WordRain. This is level one. To win this round, you must make a valid 3-letter' +
+    'word. When the rain starts to fall, click on the drops to select a letter. You can select a maximum of 7 letters'
+
 
 //TODO - move function below to inside class
     levelOne.setOnRainStop(() => {
@@ -207,7 +225,7 @@ class RaindropApp {
         levelOne.message.className = 'instruction-message';
         levelOne.wordArea.appendChild(levelOne.message);
     });
-    levelOne.initialize();
+    levelOne.initialize(levelOneText);
 
 
 /* Level Two  /****************************************************************************************/

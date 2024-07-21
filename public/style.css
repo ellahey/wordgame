@@ -74,11 +74,8 @@ body {
     text-align: center;
 }
 
-.instruction-message {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 1.2em;
-    color: #333;
+#instructions {
+    z-index: 10;
 }
 
 #word-area {
@@ -94,6 +91,7 @@ body {
     display: flex;
     justify-content: center;
 }
+
 
 button {
     width: fit-content;
