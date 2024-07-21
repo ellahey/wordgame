@@ -19,7 +19,7 @@ class RaindropApp {
         this.message = document.createElement('div');
         this.message.id = 'message';
         this.instructions = document.getElementById('instructions');
-        this.instructionText = '';
+        this.levelTitle = document.getElementById('levelTitle');
         this.MAX_LETTERS = 6;
     }
     getRandomLetter() {
@@ -102,7 +102,6 @@ if (this.raindrops.length >= this.MAX_LETTERS) {
     }
 
     setInstructionText(text) {
-        this.instructionText = text;
         this.instructions.innerText = text;
     }
 
@@ -110,7 +109,19 @@ if (this.raindrops.length >= this.MAX_LETTERS) {
         this.instructions.innerText = '';
     }
 
-    initialize(text) {
+    setLevelTitle(title) {
+        this.levelTitle.innerText = title;
+    }
+
+    clearLevelTitle() {
+        this.levelTitle.innerText = '';
+    }
+
+    initialize(title, text) {
+        this.setLevelTitle(title);
+        setTimeout(() => {
+            this.clearLevelTitle();
+        }, 3000)
         this.setInstructionText(text);
         setTimeout(() => {
             this.clearInstructionText();
@@ -210,8 +221,9 @@ if (this.raindrops.length >= this.MAX_LETTERS) {
 
 /* Level One ****************************************************************************************/
     const levelOne = new RaindropApp(5000, 3);
+    const levelOneTitle = 'Level One';
     const levelOneText = 'Welcome to WordRain. This is level one. To win this round, you must make a valid 3-letter' +
-    'word. When the rain starts to fall, click on the drops to select a letter. You can select a maximum of 7 letters'
+    'word. When the rain starts to fall, click on the drops to select a letter. You can select a maximum of 7 letters. Good luck!'
 
 
 //TODO - move function below to inside class
@@ -225,7 +237,7 @@ if (this.raindrops.length >= this.MAX_LETTERS) {
         levelOne.message.className = 'instruction-message';
         levelOne.wordArea.appendChild(levelOne.message);
     });
-    levelOne.initialize(levelOneText);
+    levelOne.initialize(levelOneTitle, levelOneText);
 
 
 /* Level Two  /****************************************************************************************/

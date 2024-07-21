@@ -74,9 +74,24 @@ body {
     text-align: center;
 }
 
-#instructions {
-    z-index: 10;
+#levelTitle {
+    width: 100px;
+    height: 100px;
+    background: red;
+    transition: width 2s;
 }
+
+#instructions {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-self: center;
+    margin-left: 30%;
+    margin-right: 30%;
+    font-size: larger;
+    background-color: cornflowerblue;
+}
+
 
 #word-area {
     display: none; /* Hide initially */
