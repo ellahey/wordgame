@@ -1,3 +1,13 @@
+/*<uniquifier>: Use a unique and descriptive class name*/
+/*<weight>: Use a value from 100 to 400*/
+
+.playwrite-gb-s-playwrite {
+                     font-family: "Playwrite GB S", cursive;
+                     font-optical-sizing: auto;
+                     font-weight: 200;
+                     font-style: normal;
+                 }
+
 body {
     font-family: "Source Code Pro", sans-serif ;
     overflow: hidden;
@@ -75,10 +85,14 @@ body {
 }
 
 #levelTitle {
-    width: 100px;
-    height: 100px;
-    background: red;
     transition: width 2s;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    margin-left: 30%;
+    margin-right: 30%;
+    font-family: "Playwrite GB S", cursive;
+    font-size: 32px;
 }
 
 #instructions {
@@ -89,7 +103,8 @@ body {
     margin-left: 30%;
     margin-right: 30%;
     font-size: larger;
-    background-color: cornflowerblue;
+    text-align: center;
+    font-family: "Source Code Pro", sans-serif;
 }
 
 

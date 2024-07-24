@@ -171,6 +171,14 @@ if (this.raindrops.length >= this.MAX_LETTERS) {
         button.addEventListener('click', () => this.extractWord());
     }
 
+    // If no letters or not enough letters for level have been selected:
+    showReTryMessage(text) {
+        this.setInstructionText(text)
+        const retryButton = document.createElement('button')
+        retryButton.type = 'button';
+        retryButton.id = 'retry';
+        retryButton.addEventListener('click', () => this.extractWord());
+    }
 
     extractWord() {
         console.log('extractWord() is called')
@@ -223,14 +231,17 @@ if (this.raindrops.length >= this.MAX_LETTERS) {
     const levelOne = new RaindropApp(5000, 3);
     const levelOneTitle = 'Word Rain - Level One';
     const levelOneText = 'Welcome to WordRain. This is level one. To win this round, you must make a valid 3-letter' +
-    'word. When the rain starts to fall, click on the drops to select a letter. You can select a maximum of 7 letters. Good luck!'
+        'word. When the rain starts to fall, click on the drops to select a letter. You can select a maximum of 7 letters.' +
+        '\r\n Good luck!'
 
 
 //TODO - move function below to inside class
     levelOne.setOnRainStop(() => {
         console.log('Rain has stopped. Rendering additional elements.');
-        levelOne.renderLetterSpaces();
-        levelOne.renderButton();
+        if(levelOne.letterArray.length > 0) {
+            levelOne.renderLetterSpaces();
+            levelOne.renderButton();
+        }
         // Display message or instructions for user
         //TODO - create a separate class for handling the area / messages below
         levelOne.message.innerText = 'Drag letters to spaces to form a word, then click "Submit"';
