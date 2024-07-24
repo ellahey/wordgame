@@ -120,13 +120,13 @@ if (this.raindrops.length >= this.MAX_LETTERS) {
     initialize(title, text) {
         this.setLevelTitle(title);
         setTimeout(() => {
-            this.clearLevelTitle();
+            this.clearLevelTitle(title);
+            this.setInstructionText(text);
+            setTimeout(() => {
+                this.clearInstructionText();
+                this.startRain();
+            }, 5000);
         }, 3000)
-        this.setInstructionText(text);
-        setTimeout(() => {
-            this.clearInstructionText();
-            this.startRain();
-        }, 5000);
     }
 
 
@@ -221,7 +221,7 @@ if (this.raindrops.length >= this.MAX_LETTERS) {
 
 /* Level One ****************************************************************************************/
     const levelOne = new RaindropApp(5000, 3);
-    const levelOneTitle = 'Level One';
+    const levelOneTitle = 'Word Rain - Level One';
     const levelOneText = 'Welcome to WordRain. This is level one. To win this round, you must make a valid 3-letter' +
     'word. When the rain starts to fall, click on the drops to select a letter. You can select a maximum of 7 letters. Good luck!'
 
