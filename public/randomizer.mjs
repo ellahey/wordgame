@@ -143,31 +143,53 @@ if (this.raindrops.length >= this.MAX_LETTERS) {
 
     handleDrop = (event) => {
         event.preventDefault();
-        const data = event.dataTransfer.getData('text/plain');
+
+        // Get the letter being dragged
+        const letter = event.dataTransfer.getData('text/plain');
         const sourceId = event.dataTransfer.getData('source-id');
         const draggedElement = document.getElementById(sourceId);
 
+        // Check if dropping on a letter-space
         if (event.currentTarget.className === 'letter-space') {
-            event.target.innerText = data;
+            // If the target space already contains a letter, exit early
+            if (event.currentTarget.innerText !== '_') {
+                return;
+            }
+
+            // Place the letter in the target space and hide the dragged letter
+            event.currentTarget.innerText = letter;
             draggedElement.style.visibility = 'hidden';
+            event.currentTarget.setAttribute('data-source-id', sourceId); // Store the source ID on the space for future reference
+
         } else {
+            // Handle if the letter is being dragged back to the selected letters container
             const selectedLetterContainer = document.getElementById('selection-container');
-            if (selectedLetterContainer.firstElementChild.firstElementChild.id === sourceId) {
-                selectedLetterContainer.firstElementChild.firstElementChild.style.visibility = 'visible';
+            if (selectedLetterContainer.contains(event.target)) {
+                // Find the space that originally held the letter
+                const spaces = document.querySelectorAll('.letter-space');
+                spaces.forEach(space => {
+                    if (space.getAttribute('data-source-id') === sourceId) {
+                        space.innerText = '_'; // Clear the letter space
+                        space.removeAttribute('data-source-id'); // Remove the reference
+                    }
+                });
+
+                // Make the letter visible again
+                draggedElement.style.visibility = 'visible';
             }
         }
     }
 
     renderButton() {
         console.log('renderButton called')
-        const buttonArea = document.createElement('div')
-        buttonArea.className = 'button-area';
+        this.buttonArea = document.createElement('div')
+        this.buttonArea.className = 'button-area';
         const button = document.createElement('button');
         button.type = 'submit';
         button.id = 'submit';
         button.innerText = 'Submit';
         this.buttonArea.appendChild(button);
-        this.wordArea.appendChild(buttonArea);
+        this.wordArea.appendChild(this.buttonArea);
         button.addEventListener('click', () => this.extractWord());
     }
 
