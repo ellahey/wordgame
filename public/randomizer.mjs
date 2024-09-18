@@ -25,6 +25,93 @@ class RaindropApp {
         this.dragging = false; // Flag to check if a letter is being dragged
     }
 
+    // All existing methods...
+
+    // Modified handleDrop method to include letter swapping and dragging back to the selection area
+    handleDrop = (event) => {
+        event.preventDefault();
+        this.dragging = false; // Reset dragging flag
+
+        const letter = event.dataTransfer.getData('text/plain');
+        const sourceId = event.dataTransfer.getData('source-id');
+        const draggedElement = document.getElementById(sourceId);
+
+        if (event.currentTarget.className === 'letter-space') {
+            // Handle dropping onto a letter space
+            const targetSpace = event.currentTarget;
+            const targetSourceId = targetSpace.getAttribute('data-source-id');
+
+            if (targetSpace.innerText !== '_') {
+                // Swap letters if the target space is occupied
+                const oldLetter = targetSpace.innerText;
+                const oldElement = document.getElementById(targetSourceId);
+
+                // Move old letter back to selection area
+                if (oldElement) {
+                    oldElement.style.visibility = 'visible';
+                }
+
+                // Swap letters between spaces
+                targetSpace.innerText = letter;
+                targetSpace.setAttribute('data-source-id', sourceId);
+                draggedElement.style.visibility = 'hidden';
+
+                // Also swap the dragged element's position back to the selection area
+                draggedElement.parentNode.appendChild(draggedElement);
+            } else {
+                // Place the letter in the empty space
+                targetSpace.innerText = letter;
+                targetSpace.setAttribute('data-source-id', sourceId);
+                draggedElement.style.visibility = 'hidden';
+            }
+        } else if (event.currentTarget === this.selectedLetterContainer) {
+            // Handle dropping back to the selection area
+            const spaces = document.querySelectorAll('.letter-space');
+            spaces.forEach(space => {
+                if (space.getAttribute('data-source-id') === sourceId) {
+                    // Clear the space
+                    space.innerText = '_';
+                    space.removeAttribute('data-source-id');
+                }
+            });
+            // Make the letter visible again in the selection area
+            draggedElement.style.visibility = 'visible';
+        }
+    }
+
+
+    // Add event listeners for dragging to enable dragging letters back to the selection area
+    handleDragStart = (event) => {
+        if (this.dragging) {
+            event.preventDefault(); // Prevent dragging if another letter is already being dragged
+            return;
+        }
+        this.dragging = true; // Set dragging flag
+        const target = event.target;
+        event.dataTransfer.setData('text/plain', target.innerText);
+        event.dataTransfer.setData('source-id', target.id);
+    }
+
+    handleDragOver = (event) => {
+        event.preventDefault();
+    }
+
+    renderLetterSpaces() {
+        this.rearrangeArea = document.getElementById('rearrange-area');
+        this.rearrangeArea.innerHTML = '';
+
+        for (let i = 0; i < this.wordLength; i++) {
+            const space = document.createElement('div');
+            space.className = 'letter-space';
+            space.setAttribute('data-index', `${i}`);
+            space.innerText = '_';
+            space.addEventListener('dragover', this.handleDragOver);
+            space.addEventListener('drop', this.handleDrop);
+            this.rearrangeArea.appendChild(space);
+        }
+
+        this.wordArea.style.display = 'block';
+    }
     getRandomLetter() {
         const randomIndex = Math.floor(Math.random() * this.ALPHABET.length);
         return this.ALPHABET[randomIndex];
@@ -81,22 +168,6 @@ class RaindropApp {
         this.onRainStop = callback;
     }
 
-    renderLetterSpaces() {
-        this.rearrangeArea = document.getElementById('rearrange-area');
-        this.rearrangeArea.innerHTML = '';
-
-        for (let i = 0; i < this.wordLength; i++) {
-            const space = document.createElement('div');
-            space.className = 'letter-space';
-            space.setAttribute('data-index', `${i}`);
-            space.innerText = '_';
-            space.addEventListener('dragover', this.handleDragOver);
-            space.addEventListener('drop', this.handleDrop);
-            this.rearrangeArea.appendChild(space);
-        }
-
-        this.wordArea.style.display = 'block';
-    }
 
     setInstructionText(text) {
         this.instructions.innerText = text;
@@ -124,64 +195,6 @@ class RaindropApp {
                 this.startRain();
             }, 5000);
         }, 3000);
-    }
-
-    // Drag and Drop Event Handlers
-    handleDragStart = (event) => {
-        if (this.dragging) {
-            event.preventDefault(); // Prevent dragging if another letter is already being dragged
-            return;
-        }
-        this.dragging = true; // Set dragging flag
-        const target = event.target;
-        event.dataTransfer.setData('text/plain', target.innerText);
-        event.dataTransfer.setData('source-id', target.id);
-    }
-
-    handleDragOver = (event) => {
-        event.preventDefault();
-    }
-
-    handleDrop = (event) => {
-        event.preventDefault();
-        this.dragging = false; // Reset dragging flag
-
-        const letter = event.dataTransfer.getData('text/plain');
-        const sourceId = event.dataTransfer.getData('source-id');
-        const draggedElement = document.getElementById(sourceId);
-
-        // If dropped on a letter-space
-        if (event.currentTarget.className === 'letter-space') {
-            if (event.currentTarget.innerText !== '_') {
-                // Swap letters if the target space is occupied
-                const currentLetter = event.currentTarget.innerText;
-                const currentSourceId = event.currentTarget.getAttribute('data-source-id');
-
-                // Move current letter back to selection area
-                const previousElement = document.getElementById(currentSourceId);
-                previousElement.style.visibility = 'visible';
-
-                // Replace the existing letter with the new one
-                event.currentTarget.innerText = letter;
-                event.currentTarget.setAttribute('data-source-id', sourceId);
-                draggedElement.style.visibility = 'hidden';
-            } else {
-                // Place the letter in the empty space
-                event.currentTarget.innerText = letter;
-                event.currentTarget.setAttribute('data-source-id', sourceId);
-                draggedElement.style.visibility = 'hidden';
-            }
-        } else if (event.currentTarget === this.selectedLetterContainer) {
-            // If dropped back in the selection area
-            const spaces = document.querySelectorAll('.letter-space');
-            spaces.forEach(space => {
-                if (space.getAttribute('data-source-id') === sourceId) {
-                    space.innerText = '_';
-                    space.removeAttribute('data-source-id');
-                }
-            });
-            draggedElement.style.visibility = 'visible';
-        }
     }
 
     renderButton() {
