@@ -1,4 +1,5 @@
 /*
+/!*
 
     constructor(levelTimeout, levelWordLength) {
         // Initialization code remains the same
@@ -96,10 +97,10 @@
     handleDragOver = (event) => {
         event.preventDefault();
     }
-*/
+*!/
 let intervalId, isRainStopped, timeout
 //Start rain
-
+//Call to getRain in Lettercontroller, renderLetter in View
 
 
 
@@ -111,8 +112,8 @@ let intervalId, isRainStopped, timeout
             space.className = 'letter-box';
             space.setAttribute('data-index', `${i}`);
             space.innerText = '_';
-           /* space.addEventListener('dragover', this.handleDragOver);
-            space.addEventListener('drop', this.handleDrop);*/
+           /!* space.addEventListener('dragover', this.handleDragOver);
+            space.addEventListener('drop', this.handleDrop);*!/
             letterBoxesArea.appendChild(space);
         }
 
@@ -143,9 +144,6 @@ let intervalId, isRainStopped, timeout
 
 
 
-    stopRain() {
-        clearInterval(this.intervalId);
-    }
 
     renderSelectedLetter(letter) {
         this.letterArray.push(letter);
@@ -272,3 +270,4 @@ levelOne.setOnRainStop(() => {
     levelOne.wordArea.appendChild(levelOne.message);
 });
 levelOne.initialize(levelOneTitle, levelOneText);
+*/
