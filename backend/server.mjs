@@ -1,7 +1,7 @@
 //server.mjs
 import express from 'express';
-import { logger } from './logger.mjs';
-import { checkWord } from "./backend/controller/wordController.mjs";
+import { logger } from '../logger.mjs';
+import { checkWord } from "./controller/wordController.mjs";
 
 const FILE_PATH = './database/combined_words.txt';
 const app = express();

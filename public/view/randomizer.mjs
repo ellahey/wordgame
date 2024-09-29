@@ -1,4 +1,5 @@
-class RaindropApp {
+/*
+
     constructor(levelTimeout, levelWordLength) {
         // Initialization code remains the same
         this.timeout = levelTimeout;
@@ -95,27 +96,29 @@ class RaindropApp {
     handleDragOver = (event) => {
         event.preventDefault();
     }
+*/
+let intervalId, isRainStopped, timeout
+//Start rain
 
-    renderLetterSpaces() {
-        this.rearrangeArea = document.getElementById('rearrange-area');
-        this.rearrangeArea.innerHTML = '';
 
-        for (let i = 0; i < this.wordLength; i++) {
+
+
+    renderletterBoxes(wordLength) {
+        letterBoxesArea = document.getElementById('letterBoxes');
+
+        for (let i = 0; i < wordLength; i++) {
             const space = document.createElement('div');
-            space.className = 'letter-space';
+            space.className = 'letter-box';
             space.setAttribute('data-index', `${i}`);
             space.innerText = '_';
-            space.addEventListener('dragover', this.handleDragOver);
-            space.addEventListener('drop', this.handleDrop);
-            this.rearrangeArea.appendChild(space);
+           /* space.addEventListener('dragover', this.handleDragOver);
+            space.addEventListener('drop', this.handleDrop);*/
+            letterBoxesArea.appendChild(space);
         }
 
         this.wordArea.style.display = 'block';
     }
-    getRandomLetter() {
-        const randomIndex = Math.floor(Math.random() * this.ALPHABET.length);
-        return this.ALPHABET[randomIndex];
-    }
+
 
     renderLetter(letter) {
         const raindrop = document.createElement('div');
@@ -138,17 +141,7 @@ class RaindropApp {
         });
     }
 
-    startRain() {
-        this.intervalId = setInterval(() => {
-            const letter = this.getRandomLetter();
-            this.renderLetter(letter);
-        }, 100);
 
-        setTimeout(() => {
-            this.stopRain();
-            this.isRainStopped = true;
-        }, this.timeout);
-    }
 
     stopRain() {
         clearInterval(this.intervalId);
