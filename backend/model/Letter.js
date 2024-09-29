@@ -1,18 +1,21 @@
+//Letter = rain!
 export class Letter {
-    //Letter = rain!
 
+    intervalId;
     constructor() {
-        this.character = this.generateLetter()
+        this.character = null;
     }
 
-    startRain() {
-        intervalId = setInterval(() => {
-            this.character = this.getCharacter();
-        }, 100);
+    startRain(timeBetweenLetters, timeout) {
+        this.intervalId = setInterval(() => {
+            this.character = this.generateLetter();
+            console.log(this.character) //testing
+        }, timeBetweenLetters);
 
         setTimeout(() => {
             this.stopRain();
-            isRainStopped = true;
+            this.isRainStopped = true;
+            console.log("Rain stopped.");
         }, timeout);
     }
 
@@ -24,7 +27,7 @@ export class Letter {
     }
 
     stopRain() {
-        clearInterval(intervalId);
+        clearInterval(this.intervalId);
     }
 
     getCharacter() {
