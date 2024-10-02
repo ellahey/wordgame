@@ -121,26 +121,6 @@ let intervalId, isRainStopped, timeout
     }
 
 
-    renderLetter(letter) {
-        const raindrop = document.createElement('div');
-        raindrop.className = 'raindrop';
-        raindrop.innerText = letter;
-        raindrop.style.left = `${Math.random() * 100}vw`;
-        raindrop.style.animationDuration = `${Math.random() * 5 + 3}s`;
-        this.container.appendChild(raindrop);
-        this.raindrops.push(raindrop);
-
-        raindrop.addEventListener('click', () => this.renderSelectedLetter(letter));
-
-        raindrop.addEventListener('animationend', () => {
-            raindrop.remove();
-            this.raindrops = this.raindrops.filter(drop => drop !== raindrop);
-
-            if (this.raindrops.length === 0 && this.isRainStopped && this.onRainStop) {
-                this.onRainStop();
-            }
-        });
-    }
 
 
 

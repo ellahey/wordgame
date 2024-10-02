@@ -1,37 +1,30 @@
-//Letter = rain!
+
 export class Letter {
 
-    intervalId;
     constructor() {
-        this.character = null;
-    }
-
-    startRain(timeBetweenLetters, timeout) {
-        this.intervalId = setInterval(() => {
-            this.character = this.generateLetter();
-            console.log(this.character) //testing
-        }, timeBetweenLetters);
-
-        setTimeout(() => {
-            this.stopRain();
-            this.isRainStopped = true;
-            console.log("Rain stopped.");
-        }, timeout);
+        this.character = this.generateLetter()
     }
 
     generateLetter() {
-        const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const randomIndex = Math.floor(Math.random() * ALPHABET.length);
-        this.character = ALPHABET[randomIndex];
+        const VOWELS = ['A', 'E', 'I', 'O', 'U'];
+        const CONSONANTS = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];
+        // Create weighted array to reflect 2:3 vowel-to-consonant ratio
+        const weightedAlphabet = [
+            ...VOWELS, ...VOWELS,           // Vowels appear 2 times
+            ...CONSONANTS, ...CONSONANTS, ...CONSONANTS // Consonants appear 3 times
+        ];
+        // Generate a random letter from the weighted array
+        const randomIndex = Math.floor(Math.random() * weightedAlphabet.length);
+        this.character = weightedAlphabet[randomIndex];
         return this.character;
-    }
-
-    stopRain() {
-        clearInterval(this.intervalId);
     }
 
     getCharacter() {
         return this.character;
     }
+/*
+    getClickedLetter(clickedLetter) {
+            this.letterArray.push(clickedLetter);
+    }*/
 
 }
