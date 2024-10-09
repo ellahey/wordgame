@@ -8,7 +8,6 @@ export class Level {
         if (levelId === undefined) {
             throw new Error("levelId is required"); //JS doesn't enforce param passing in constructors.
         }
-        this.levelId = levelId;
         this.letterArray = [];
     }
 

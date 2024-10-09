@@ -108,6 +108,9 @@ body {
 }
 
 
+/***to CSS raindrop.style.left = `${math.random() * 100}vw`;
+/***to CSS raindrop.style.animationduration = `${math.random() * 5 + 3}s`;***/
+
 #word-area {
     display: none; /* Hide initially */
     margin-top: 20px;

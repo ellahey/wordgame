@@ -83,16 +83,7 @@
 
 
     // Add event listeners for dragging to enable dragging letters back to the selection area
-    handleDragStart = (event) => {
-        if (this.dragging) {
-            event.preventDefault(); // Prevent dragging if another letter is already being dragged
-            return;
-        }
-        this.dragging = true; // Set dragging flag
-        const target = event.target;
-        event.dataTransfer.setData('text/plain', target.innerText);
-        event.dataTransfer.setData('source-id', target.id);
-    }
+
 
     handleDragOver = (event) => {
         event.preventDefault();
@@ -125,15 +116,7 @@ let intervalId, isRainStopped, timeout
 
 
 
-    renderSelectedLetter(letter) {
-        this.letterArray.push(letter);
-        const span = document.createElement('span');
-        span.innerText = letter;
-        span.draggable = true;
-        span.addEventListener('dragstart', this.handleDragStart);
-        span.id = `letter-${letter}-${Date.now()}`;
-        this.selectedLetterElement.appendChild(span);
-    }
+
 
     setOnRainStop(callback) {
         this.onRainStop = callback;

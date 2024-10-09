@@ -16,6 +16,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get('api/letter', (req, res) => {
+
+})
+
 
 app.post('/api/dictionary', (req, res) => {
     const word = req.body.word;
