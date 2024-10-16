@@ -1,10 +1,11 @@
 import * as fs from "fs";
 import * as readline from 'readline';
+import config from '../config/config.js';
 
-async function checkWord(FILE_PATH, word) {
+async function checkWord(word) {
     console.log(`checkWord is called with word: ${word}`);
     return new Promise((resolve, reject) => {
-        const fileStream = fs.createReadStream(FILE_PATH);
+        const fileStream = fs.createReadStream(config.databaseFilePath);
 
         fileStream.on('error', (err) => {
             console.error(`File read error: ${err.message}`);
