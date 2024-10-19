@@ -1,8 +1,11 @@
 // launcher.js
+import app from './app.js';
 import { LevelService } from './service/levelService.js';
 
 function run() {
     console.log("Starting backend...");
+
+    app.run();
 
    
     const levelService = new LevelService(1, 3);

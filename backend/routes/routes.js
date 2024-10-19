@@ -12,5 +12,6 @@ const register = (app) => {
   app.post('/word', handleCheckWord);
 };
 
-export { register }
+export { register };
+
 
