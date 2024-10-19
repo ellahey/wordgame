@@ -1,4 +1,7 @@
 
+
+//TODO: level titles
+
 import { Letter } from './Letter.js'
 export class Level {
     intervalId;

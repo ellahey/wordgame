@@ -1,11 +1,15 @@
 // controller/controller.js
 
 import wordService from '../service/wordService.mjs';   
-import letterService from '../service/letterService.mjs';  
+import LetterService from '../service/letterService.js'
 
+
+/******* Letter controller **********************************************************************************/
+ 
 // Handles GET request for generating a letter
 const handleGetLetter = (_, res) => {
-  letterService.getLetter()
+  const letterServiceInstance = new LetterService;
+  letterServiceInstance.generateLetter()
     .then(generated => {
       if (generated) {
         res.json({ code: 0, message: `The letter "${generated}" was generated.` });
@@ -18,8 +22,10 @@ const handleGetLetter = (_, res) => {
     });
 };
 
+/******* Word controller **********************************************************************************/
+
 // Handles POST request for checking word in the dictionary
-const handleGetDictionary = (req, res) => {
+const handleCheckWord = (req, res) => {
   const word = req.body.word; 
 
   wordService.checkWord(word)
@@ -35,8 +41,9 @@ const handleGetDictionary = (req, res) => {
     });
 };
 
+
 // Exports to routes.js
 export {
   handleGetLetter,
-  handleGetDictionary,
+  handleCheckWord,
 };
