@@ -1,13 +1,10 @@
-// Letter.js (Model)
+// Letter.js
 export class Letter {
     constructor(character) {
-        if (!character) {
-            throw new Error("Character is required to create a letter");
-        }
-        this.character = character;
+        this.character = character;  // Assign the character directly
     }
 
-    getLetter() {
-        return this.character;
+    getCharacter() {
+        return this.character;  // Method to retrieve the character
     }
 }

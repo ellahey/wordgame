@@ -1,39 +1,29 @@
+// Level.js
 
-
-//TODO: level titles
-
-import { Letter } from './Letter.js'
 export class Level {
-    intervalId;
-    isRainStopped;
-    letterArray;
-    constructor(levelId) {
+    constructor(levelId, wordLength) {
         if (levelId === undefined) {
-            throw new Error("levelId is required"); //JS doesn't enforce param passing in constructors.
+            throw new Error("levelId is required");
         }
-        this.letterArray = [];
-    }
-
-    startRain(timeBetweenLetters, timeout) {
-        this.intervalId = setInterval(() => {
-            this.character = new Letter();
-            this.letterArray.push(this.character);
-            console.log(this.character) //testing
-        }, timeBetweenLetters);
-
-        setTimeout(() => {
-            this.stopRain();
-            this.isRainStopped = true;
-            console.log("Rain stopped.");
-        }, timeout);
-    }
-
-    stopRain() {
-        clearInterval(this.intervalId);
+        this.levelId = levelId;           
+        this.letterArray = []; 
+        this.wordLength = wordLength;           
     }
 
     getLetterArray() {
-        return this.letterArray;
+        return this.letterArray;          
     }
 
+    addLetter(letter) {
+        this.letterArray.push(letter);    
+    }
+
+    clearLetters() {
+        this.letterArray = [];             
+    }
+
+    isValidWordLength(word) {
+        const length = word.length;
+        return length === this.wordLength; // Check if the word length is valid
+    }
 }

@@ -4,7 +4,7 @@
 import express, { json } from 'express';
 import { register } from './routes/routes.js';  
 import { config } from './config/config.js';  
-import logger from '../logger.mjs';  
+import { logger } from '../logger.mjs';  
 
 const app = express();
 

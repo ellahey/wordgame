@@ -1,8 +1,13 @@
 import * as fs from "fs";
 import * as readline from 'readline';
-import config from '../config/config.js';
+import { config } from '../config/config.js';
 
-async function checkWord(word) {
+export class WordService {
+    constructor() {
+        this.databaseFilePath = config.databaseFilePath;
+    }
+    
+checkWord(word) {
     console.log(`checkWord is called with word: ${word}`);
     return new Promise((resolve, reject) => {
         const fileStream = fs.createReadStream(config.databaseFilePath);
@@ -37,4 +42,7 @@ async function checkWord(word) {
     });
 }
 
-export { checkWord }
+}
+    
+
+

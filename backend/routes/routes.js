@@ -1,7 +1,7 @@
 // routes/routes.js
 
 // Import the controller functions that handle the request logic
-import { handleGetLetter, handleGetDictionary } from '../controller/controller.js';  // Correct import path
+import { handleGetLetter, handleCheckWord } from '../controller/controller.js';  // Correct import path
 
 // Define route registration function
 const register = (app) => {
@@ -12,7 +12,5 @@ const register = (app) => {
   app.post('/word', handleCheckWord);
 };
 
-export default {
-  register,
-};
+export { register }
 

@@ -1,18 +1,34 @@
+import { LetterService } from './letterService.js';
+import { Level } from '../model/Level.js';  
 
-function startLevel(timeBetweenLetters, timeout) {
-    this.intervalId = setInterval(() => {
-        this.character = new Letter();
-        this.letterArray.push(this.character);
-        console.log(this.character) //testing
-    }, timeBetweenLetters);
+export class LevelService {
+    constructor(levelId, wordLength) {
+        if (levelId === undefined) {
+            throw new Error("levelId is required");
+        }
+        this.level = new Level(levelId, wordLength);  
+        this.letterService = new LetterService();  
+    }
 
-    setTimeout(() => {
-        this.stopRain();
-        this.isRainStopped = true;
-        console.log("Rain stopped.");
-    }, timeout);
-}
+    startRain(timeBetweenLetters, timeout) {
+        this.level.intervalId = setInterval(() => {
+            const letter = this.letterService.generateLetter();  // Generate a letter using LetterService
+            this.level.letterArray.push(letter);  // Add to the level's array
+            console.log(`Generated letter: ${letter.getCharacter()}`);
+        }, timeBetweenLetters);
 
-stopRain() {
-    clearInterval(this.intervalId);
+        setTimeout(() => {
+            this.stopRain();
+            this.level.isRainStopped = true;
+            console.log("Rain stopped.");
+        }, timeout);
+    }
+
+    stopRain() {
+        clearInterval(this.level.intervalId);  // Stop the interval
+    }
+
+    getLetterArray() {
+        return this.level.letterArray;  // Return the current letter array
+    }
 }
