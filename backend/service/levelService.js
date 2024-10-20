@@ -12,8 +12,8 @@ export class LevelService {
 
     startRain(timeBetweenLetters, timeout) {
         this.level.intervalId = setInterval(() => {
-            const letter = this.letterService.generateLetter();  // Generate a letter using LetterService
-            this.level.letterArray.push(letter);  // Add to the level's array
+            const letter = this.letterService.generateLetter();  
+            this.level.letterArray.push(letter);  
             console.log(`Generated letter: ${letter.getCharacter()}`);
         }, timeBetweenLetters);
 

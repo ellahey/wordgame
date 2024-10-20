@@ -2,6 +2,8 @@
 
 import { WordService } from '../service/wordService.js';   
 import { LetterService } from '../service/letterService.js'
+import Logger from 'nodemon/lib/utils/log.js';
+import { logger } from '../../logger.js';
 
 
 /******* Letter controller **********************************************************************************/
@@ -14,7 +16,7 @@ const handleGetLetter = (_, res) => {
     const generated = letterServiceInstance.generateLetter()
 
       if (generated) {
-        res.json({ code: 0, message: `The letter "${generated}" was generated.` });
+        res.json({ code: 0, message: `The letter + ${generated.character} + was generated.`});
       } else {
         res.json({ code: 1, message: `ERROR. A letter could not be generated.` });
       }
@@ -28,12 +30,13 @@ const handleGetLetter = (_, res) => {
 
 // Handles POST request for checking word in the dictionary
 const handleCheckWord = (req, res) => {
-  const word = req.body.word; 
+  console.log('Received request to check word:');
+  console.log('Request Body:', req.body);
+  const word = req.body.word
   const wordServiceInstance = new WordService();
   if (!word) {
     return res.status(400).json({ error: 'Word is required.' });
-  } else {
-    try {
+  } 
       wordServiceInstance.checkWord(word)
         .then(found => {
           if (found) {
@@ -45,11 +48,7 @@ const handleCheckWord = (req, res) => {
         .catch(err => {
           res.status(500).json({ error: `Error reading file: ${err.message}` });
         });
-    } catch (error) {
-      res.status(500).json({ error: `Unexpected error: ${error.message}` });
-    }
-  }
-}
+  };
   
 
 
